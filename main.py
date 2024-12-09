@@ -2,13 +2,14 @@ from tkinter import *
 from tkinter import Tk, ttk
 from PIL import Image, ImageTk
 from tkinter.ttk import Progressbar
+from tkcalendar import DateEntry
 
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
 
 # definição das cores
-co0 = "#2eb2d2b"
+co0 = "#2eb2d2"  # Código hexadecimal válido
 co1 = "#feffff"
 co2 = "#4fa882"
 co3 = "#38576b"
@@ -231,7 +232,51 @@ def mostrar_renda():
     for item in lista_itens:
         tree.insert('', 'end', values=item)
 
+l_info = Label(frame_operacoes, text="Insira nova despesas", height=1, anchor=NW, font=("Verdana 10 bold"), bg=co1, fg=co4)
+l_info.place(x=10,y=10)
 
+l_categoria = Label(frame_operacoes, text="Categoria", height=1, anchor=NW, font=("Ivy 10"), bg=co1, fg=co4)
+l_categoria.place(x=10,y=40)
+
+categoria_funcao=["Estudos","Streaming"]
+categoria = []
+
+for i in categoria_funcao:
+    categoria.append(i[1])
+
+combo_categoria_despesas=ttk.Combobox(frame_operacoes, width=10, font=("Ivy 10"))
+combo_categoria_despesas["values"]=(categoria)
+combo_categoria_despesas.place(x=110, y=41)
+
+l_cal_despesas=Label(frame_operacoes,text="Data", height=1,anchor=NW,font=("Ivy 10"),bg=co1, fg=co4)
+l_cal_despesas.place(x=10,y=70)
+
+e_cal_despesas= DateEntry(frame_operacoes, width=12, background="darkblue",foreground="white",borderwith=2,year=2024)
+e_cal_despesas.place(x=110,y=71)
+
+l_valor_despesas=Label(frame_operacoes,text="Quantia Total ", height=1,anchor=NW,font=("Ivy 10"),bg=co1, fg=co4)
+l_valor_despesas.place(x=10,y=100)
+
+e_valor_despesas=Label(frame_operacoes,width=14,justify="left",relief="solid")
+e_valor_despesas.place(x=110,y=101)
+
+
+img_add_despesas=Image.open("add.jpg")
+img_add_despesas=img_add_despesas.resize((17,17))
+img_add_despesas=ImageTk.PhotoImage(img_add_despesas)
+
+botao_inserir_despesas=Button(frame_operacoes, image=img_add_despesas,text="Adicionar".upper(), width=80,compound=LEFT,anchor=NW,font=('Ivy 7 bold'),bg=co1,fg=co0,overrelief=RIDGE)
+botao_inserir_despesas.place(x=110,y=131)
+
+
+l_excluir=Label(frame_operacoes,text="Ecluir ação ", height=1,anchor=NW,font=("Ivy 10"),bg=co1, fg=co4)
+l_excluir.place(x=10,y=190)
+img_delete=Image.open("delete.png")
+img_delete=img_delete.resize((13,13))
+img_delete=ImageTk.PhotoImage(img_delete)
+
+botao_inserir_despesas=Button(frame_operacoes, image=img_delete,text="Deletar".upper(), width=80,compound=LEFT,anchor=NW,font=('Ivy 7 bold'),bg=co1,fg=co0,overrelief=RIDGE)
+botao_inserir_despesas.place(x=110,y=190)
 grafico_bar()
 porcentagem()
 mostrar_renda()
