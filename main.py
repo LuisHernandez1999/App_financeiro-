@@ -3,10 +3,12 @@ from tkinter import Tk, ttk
 from PIL import Image, ImageTk
 from tkinter.ttk import Progressbar
 from tkcalendar import DateEntry
+from  tkinter import messagebox
 
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
+from view import bar_valores, inserir_categoria, inserir_receita,inserir_gasto,ver_categoria
 
 # definição das cores
 co0 = "#2eb2d2"  # Código hexadecimal válido
@@ -50,6 +52,25 @@ app_img = ImageTk.PhotoImage(app_img)
 app_logo = Label(frameCima, image=app_img, text="Controle financeiro", width=900, compound=LEFT, padx=5, relief=RAISED, anchor=NW, font=('Verdana 20 bold'), bg=co1, fg=co4)
 app_logo.place(x=0, y=0)
 
+global tree 
+
+def inserir_categoria_b():
+    nome = e_categoria.get()  # Obtém o nome da categoria
+
+    if nome == '':  # Verifica se o campo está vazio
+        messagebox.showerror('Error', 'Preencha todos os campos')
+        return
+
+    # Chama a função de inserção, passando o nome da categoria
+    inserir_categoria(nome)
+    messagebox.showinfo("Sucesso", "Categoria inserida com sucesso!")
+    e_categoria.delete(0, "end")
+
+    # Atualiza o ComboBox com as categorias
+    categoria_funcao = ver_categoria()
+    categoria = [i[1] for i in categoria_funcao]
+
+    combo_categoria_despesas["values"] = categoria
 # função de porcentagem
 def porcentagem():
     l_nome = Label(frameMeio, text="Porcentagem da Receita gasta ", height=1, anchor=NW, font=("Verdana 12 "), bg=co1, fg=co4)
@@ -277,6 +298,42 @@ img_delete=ImageTk.PhotoImage(img_delete)
 
 botao_inserir_despesas=Button(frame_operacoes, image=img_delete,text="Deletar".upper(), width=80,compound=LEFT,anchor=NW,font=('Ivy 7 bold'),bg=co1,fg=co0,overrelief=RIDGE)
 botao_inserir_despesas.place(x=110,y=190)
+
+
+l_info = Label(frame_configuracao, text="Insira nova receitas", height=1, anchor=NW, font=("Verdana 10 bold"), bg=co1, fg=co4)
+l_info.place(x=10,y=10)
+
+l_cal_recietas=Label(frame_configuracao,text="Data", height=1,anchor=NW,font=("Ivy 10"),bg=co1, fg=co4)
+l_cal_recietas.place(x=10,y=40)
+
+e_cal_receitas= DateEntry(frame_configuracao, width=12, background="darkblue",foreground="white",borderwith=2,year=2024)
+e_cal_receitas.place(x=110,y=41)
+
+l_valor_receitas=Label(frame_configuracao,text="Quantia Total ", height=1,anchor=NW,font=("Ivy 10"),bg=co1, fg=co4)
+l_valor_receitas.place(x=10,y=70)
+
+e_valor_receitas=Label(frame_configuracao,width=14,justify="left",relief="solid")
+e_valor_receitas.place(x=110,y=71)
+
+img_add_receitas=Image.open("add.jpg")
+img_add_receitas=img_add_receitas.resize((17,17))
+img_add_receitas=ImageTk.PhotoImage(img_add_receitas)
+
+botao_inserir_receitas=Button(frame_configuracao, image=img_add_receitas,text="Adicionar".upper(), width=80,compound=LEFT,anchor=NW,font=('Ivy 7 bold'),bg=co1,fg=co0,overrelief=RIDGE)
+botao_inserir_receitas.place(x=110,y=111)
+
+l_info = Label(frame_configuracao, text="Categoria", height=1, anchor=NW, font=("Ivy 10 bold"), bg=co1, fg=co4)
+l_info.place(x=10,y=160)
+e_categoria= Entry(frame_configuracao, width=14, justify="left", relief="solid")
+e_categoria.place(x=110,y=160)
+img_add_categoria=Image.open("add.jpg")
+img_add_categoria=img_add_categoria.resize((17,17))
+img_add_categoria=ImageTk.PhotoImage(img_add_categoria)
+
+botao_inserir_categoria=Button(frame_configuracao,command=inserir_categoria_b, image=img_add_categoria,text="Adicionar".upper(), width=80,compound=LEFT,anchor=NW,font=('Ivy 7 bold'),bg=co1,fg=co0,overrelief=RIDGE)
+botao_inserir_categoria.place(x=110,y=190)
+
+
 grafico_bar()
 porcentagem()
 mostrar_renda()
