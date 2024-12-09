@@ -14,7 +14,7 @@ def inserir_categoria(i):
 def inserir_receita(i):
    with con:
       cur = con.cursor()
-      query = "INSERT INTO Receita (categoria, adicionando_em, valor) VALUES(?, ?, ?)"
+      query = "INSERT INTO Receitas (categoria, adicionando_em, valor) VALUES(?, ?, ?)"
       cur.execute(query, i)
 
 # Função para inserir gasto
@@ -28,7 +28,7 @@ def inserir_gasto(i):
 def deletar_receita(i):
    with con:
       cur = con.cursor()
-      query = "DELETE FROM Receita WHERE id=?"
+      query = "DELETE FROM Receitas WHERE id=?"
       cur.execute(query, (i,))  # Passando como tupla
 
 # Função para deletar gasto
@@ -65,7 +65,7 @@ def ver_receitas():
     lista_itens = []
     with con:
         cur = con.cursor()
-        cur.execute("SELECT * FROM Receita")
+        cur.execute("SELECT * FROM Receitas")
         linhas = cur.fetchall()
         for l in linhas:
             lista_itens.append(l)
@@ -79,7 +79,7 @@ def bar_valores():
     # Somar os valores das receitas
     with con:
         cur = con.cursor()
-        cur.execute("SELECT valor FROM Receita")
+        cur.execute("SELECT valor FROM Receitas")
         receitas = cur.fetchall()
         for receita in receitas:
             total_receitas += receita[0]

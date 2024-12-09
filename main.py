@@ -71,6 +71,22 @@ def inserir_categoria_b():
     categoria = [i[1] for i in categoria_funcao]
 
     combo_categoria_despesas["values"] = categoria
+def inserir_receita_b():
+    nome="Receitas"
+    data=e_valor_receitas.get()
+    quantidade=e_valor_receitas.get()
+    lista_inserir = [nome,data,quantidade]
+
+    for i in lista_inserir:
+        if i=='':
+            messagebox.showerror("Error","Prencha todos os  campos")
+            return
+        inserir_receita(lista_inserir)
+        messagebox.showinfo("Sucesso","Os dados forma inseridos com sucesso")
+        
+        e_cal_receitas.delete(0,'end')
+        e_valor_receitas.delete(0,'end')
+
 # função de porcentagem
 def porcentagem():
     l_nome = Label(frameMeio, text="Porcentagem da Receita gasta ", height=1, anchor=NW, font=("Verdana 12 "), bg=co1, fg=co4)
@@ -312,14 +328,14 @@ e_cal_receitas.place(x=110,y=41)
 l_valor_receitas=Label(frame_configuracao,text="Quantia Total ", height=1,anchor=NW,font=("Ivy 10"),bg=co1, fg=co4)
 l_valor_receitas.place(x=10,y=70)
 
-e_valor_receitas=Label(frame_configuracao,width=14,justify="left",relief="solid")
+e_valor_receitas=Entry(frame_configuracao,width=14,justify="left",relief="solid")
 e_valor_receitas.place(x=110,y=71)
 
 img_add_receitas=Image.open("add.jpg")
 img_add_receitas=img_add_receitas.resize((17,17))
 img_add_receitas=ImageTk.PhotoImage(img_add_receitas)
 
-botao_inserir_receitas=Button(frame_configuracao, image=img_add_receitas,text="Adicionar".upper(), width=80,compound=LEFT,anchor=NW,font=('Ivy 7 bold'),bg=co1,fg=co0,overrelief=RIDGE)
+botao_inserir_receitas=Button(frame_configuracao,command=inserir_receita_b, image=img_add_receitas,text="Adicionar".upper(), width=80,compound=LEFT,anchor=NW,font=('Ivy 7 bold'),bg=co1,fg=co0,overrelief=RIDGE)
 botao_inserir_receitas.place(x=110,y=111)
 
 l_info = Label(frame_configuracao, text="Categoria", height=1, anchor=NW, font=("Ivy 10 bold"), bg=co1, fg=co4)
