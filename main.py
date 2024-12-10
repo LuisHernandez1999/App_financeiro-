@@ -8,8 +8,7 @@ from  tkinter import messagebox
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
-from view import bar_valores, inserir_categoria, inserir_receita,inserir_gasto,ver_categoria
-
+from view import bar_valores, inserir_categoria, inserir_receita,inserir_gasto,ver_categoria,tabela
 # definição das cores
 co0 = "#2eb2d2"  # Código hexadecimal válido
 co1 = "#feffff"
@@ -86,6 +85,25 @@ def inserir_receita_b():
         
         e_cal_receitas.delete(0,'end')
         e_valor_receitas.delete(0,'end')
+def inserir_despesas_b():
+    nome=combo_categoria_despesas.get()
+    data= e_cal_despesas.get()
+    quantia=e_valor_despesas.get()
+
+    lista_inserir=[nome, data,quantia]
+
+    for i in lista_inserir:
+        if i == '':
+            messagebox.showerror("Erro","Preencha todos os campos")
+            return
+
+    inserir_gasto(lista_inserir)
+    messagebox.showinfo("Sucesso","Os dados foram salvos")
+
+    combo_categoria_despesas.delete(0,'end')
+    e_cal_despesas.delete(0,'end')
+    e_valor_despesas.delete(0,'end')
+
 
 # função de porcentagem
 def porcentagem():
@@ -240,8 +258,7 @@ def mostrar_renda():
    
     tabela_head = ['#Id','Categoria','Data','Quantia']
 
-    lista_itens = [[0,2,3,4],[0,2,3,4],[0,2,3,4],[0,2,3,4]]
-    
+    lista_itens =  tabela()
     global tree
 
     tree = ttk.Treeview(frame_renda, selectmode="extended",columns=tabela_head, show="headings")
@@ -275,7 +292,7 @@ l_info.place(x=10,y=10)
 l_categoria = Label(frame_operacoes, text="Categoria", height=1, anchor=NW, font=("Ivy 10"), bg=co1, fg=co4)
 l_categoria.place(x=10,y=40)
 
-categoria_funcao=["Estudos","Streaming"]
+categoria_funcao=ver_categoria()
 categoria = []
 
 for i in categoria_funcao:
@@ -294,7 +311,7 @@ e_cal_despesas.place(x=110,y=71)
 l_valor_despesas=Label(frame_operacoes,text="Quantia Total ", height=1,anchor=NW,font=("Ivy 10"),bg=co1, fg=co4)
 l_valor_despesas.place(x=10,y=100)
 
-e_valor_despesas=Label(frame_operacoes,width=14,justify="left",relief="solid")
+e_valor_despesas=Entry(frame_operacoes,width=14,justify="left",relief="solid")
 e_valor_despesas.place(x=110,y=101)
 
 
@@ -302,7 +319,7 @@ img_add_despesas=Image.open("add.jpg")
 img_add_despesas=img_add_despesas.resize((17,17))
 img_add_despesas=ImageTk.PhotoImage(img_add_despesas)
 
-botao_inserir_despesas=Button(frame_operacoes, image=img_add_despesas,text="Adicionar".upper(), width=80,compound=LEFT,anchor=NW,font=('Ivy 7 bold'),bg=co1,fg=co0,overrelief=RIDGE)
+botao_inserir_despesas=Button(frame_operacoes,command=inserir_despesas_b ,image=img_add_despesas,text="Adicionar".upper(), width=80,compound=LEFT,anchor=NW,font=('Ivy 7 bold'),bg=co1,fg=co0,overrelief=RIDGE)
 botao_inserir_despesas.place(x=110,y=131)
 
 
