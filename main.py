@@ -53,6 +53,16 @@ app_logo.place(x=0, y=0)
 
 global tree 
 
+def atualizar_tabela():
+    # Limpa a tabela antes de inserir novos dados
+    for item in tree.get_children():
+        tree.delete(item)
+
+    # Reinsere os dados na tabela
+    dados = tabela()  # Função que retorna os dados atualizados
+    for item in dados:
+        tree.insert('', 'end', values=item)
+
 def inserir_categoria_b():
     nome = e_categoria.get()  # Obtém o nome da categoria
 
@@ -68,23 +78,27 @@ def inserir_categoria_b():
     # Atualiza o ComboBox com as categorias
     categoria_funcao = ver_categoria()
     categoria = [i[1] for i in categoria_funcao]
+    atualizar_tabela()
 
     combo_categoria_despesas["values"] = categoria
 def inserir_receita_b():
-    nome="Receitas"
-    data=e_valor_receitas.get()
-    quantidade=e_valor_receitas.get()
-    lista_inserir = [nome,data,quantidade]
+    nome = "Receitas"
+    data = e_cal_receitas.get()  
+    quantidade = e_valor_receitas.get()
+    lista_inserir = [nome, data, quantidade]
 
+    
     for i in lista_inserir:
-        if i=='':
-            messagebox.showerror("Error","Prencha todos os  campos")
+        if i == '':
+            messagebox.showerror("Erro", "Preencha todos os campos")
             return
-        inserir_receita(lista_inserir)
-        messagebox.showinfo("Sucesso","Os dados forma inseridos com sucesso")
-        
-        e_cal_receitas.delete(0,'end')
-        e_valor_receitas.delete(0,'end')
+
+   
+    inserir_receita(lista_inserir)
+    messagebox.showinfo("Sucesso", "Os dados foram inseridos com sucesso")
+    e_cal_receitas.delete(0, 'end')
+    e_valor_receitas.delete(0, 'end')
+    atualizar_tabela()
 def inserir_despesas_b():
     nome=combo_categoria_despesas.get()
     data= e_cal_despesas.get()
@@ -103,6 +117,7 @@ def inserir_despesas_b():
     combo_categoria_despesas.delete(0,'end')
     e_cal_despesas.delete(0,'end')
     e_valor_despesas.delete(0,'end')
+    atualizar_tabela()
 
 def deletar_dados():
     try:
@@ -113,7 +128,7 @@ def deletar_dados():
         nome=treev_lista[1]
 
         if nome =="Receita": 
-            deletar_receita((valor))
+            deletar_receita(int(valor))
             messagebox.showinfo("Sucesso","Os dados foram deletados com sucesso")
 
             grafico_bar()
@@ -121,6 +136,7 @@ def deletar_dados():
             mostrar_renda()
             resumo()
             grafico_pie()
+            atualizar_tabela()
         else:
             deletar_gasto((valor))
             messagebox.showinfo("Sucesso","Os dados foram deletados ")
@@ -129,8 +145,10 @@ def deletar_dados():
             mostrar_renda()
             resumo()
             grafico_pie()
+            atualizar_tabela()
     except IndexError:
         messagebox.showerror("Error","Selecione um dos dados na tabela")
+
 # função de porcentagem
 def porcentagem():
     l_nome = Label(frameMeio, text="Porcentagem da Receita gasta ", height=1, anchor=NW, font=("Verdana 12 "), bg=co1, fg=co4)
