@@ -8,7 +8,7 @@ from  tkinter import messagebox
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
-from view import bar_valores, inserir_categoria, inserir_receita,inserir_gasto,ver_categoria,tabela
+from view import bar_valores, inserir_categoria, inserir_receita,inserir_gasto,ver_categoria,tabela,deletar_gasto,deletar_receita
 # definição das cores
 co0 = "#2eb2d2"  # Código hexadecimal válido
 co1 = "#feffff"
@@ -104,7 +104,33 @@ def inserir_despesas_b():
     e_cal_despesas.delete(0,'end')
     e_valor_despesas.delete(0,'end')
 
+def deletar_dados():
+    try:
+        treev_dados=tree.focus()
+        treev_dicionario=tree.item(treev_dados)
+        treev_lista=treev_dicionario['values']
+        valor=treev_lista[0]
+        nome=treev_lista[1]
 
+        if nome =="Receita": 
+            deletar_receita((valor))
+            messagebox.showinfo("Sucesso","Os dados foram deletados com sucesso")
+
+            grafico_bar()
+            porcentagem()
+            mostrar_renda()
+            resumo()
+            grafico_pie()
+        else:
+            deletar_gasto((valor))
+            messagebox.showinfo("Sucesso","Os dados foram deletados ")
+            grafico_bar()
+            porcentagem()
+            mostrar_renda()
+            resumo()
+            grafico_pie()
+    except IndexError:
+        messagebox.showerror("Error","Selecione um dos dados na tabela")
 # função de porcentagem
 def porcentagem():
     l_nome = Label(frameMeio, text="Porcentagem da Receita gasta ", height=1, anchor=NW, font=("Verdana 12 "), bg=co1, fg=co4)
@@ -329,8 +355,8 @@ img_delete=Image.open("delete.png")
 img_delete=img_delete.resize((13,13))
 img_delete=ImageTk.PhotoImage(img_delete)
 
-botao_inserir_despesas=Button(frame_operacoes, image=img_delete,text="Deletar".upper(), width=80,compound=LEFT,anchor=NW,font=('Ivy 7 bold'),bg=co1,fg=co0,overrelief=RIDGE)
-botao_inserir_despesas.place(x=110,y=190)
+botao_deletar=Button(frame_operacoes,command=deletar_dados,image=img_delete,text="Deletar".upper(), width=80,compound=LEFT,anchor=NW,font=('Ivy 7 bold'),bg=co1,fg=co0,overrelief=RIDGE)
+botao_deletar.place(x=110,y=190)
 
 
 l_info = Label(frame_configuracao, text="Insira nova receitas", height=1, anchor=NW, font=("Verdana 10 bold"), bg=co1, fg=co4)
