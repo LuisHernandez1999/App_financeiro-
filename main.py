@@ -54,28 +54,28 @@ app_logo.place(x=0, y=0)
 global tree 
 
 def atualizar_tabela():
-    # Limpa a tabela antes de inserir novos dados
+    # limpa a tabela antes de inserir novos dados
     for item in tree.get_children():
         tree.delete(item)
 
-    # Reinsere os dados na tabela
+    # reinsere os dados na tabela
     dados = tabela()  # Função que retorna os dados atualizados
     for item in dados:
         tree.insert('', 'end', values=item)
 
 def inserir_categoria_b():
-    nome = e_categoria.get()  # Obtém o nome da categoria
+    nome = e_categoria.get()  # obtém o nome da categoria
 
-    if nome == '':  # Verifica se o campo está vazio
+    if nome == '':  # verifica se o campo está vazio
         messagebox.showerror('Error', 'Preencha todos os campos')
         return
 
-    # Chama a função de inserção, passando o nome da categoria
+    # chama a função de inserção, passando o nome da categoria
     inserir_categoria(nome)
     messagebox.showinfo("Sucesso", "Categoria inserida com sucesso!")
     e_categoria.delete(0, "end")
 
-    # Atualiza o ComboBox com as categorias
+    # atualiza o ComboBox com as categorias
     categoria_funcao = ver_categoria()
     categoria = [i[1] for i in categoria_funcao]
     atualizar_tabela()
