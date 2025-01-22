@@ -173,26 +173,32 @@ def porcentagem():
     l_porcentagem.place(x=200, y=35)
 
 # função para gráfico de barras
+global canvas_bar
+canvas_bar = None
+
 def grafico_bar():
+    global canvas_bar
+
+    # Destroi o gráfico anterior, se existir
+    if canvas_bar:
+        canvas_bar.get_tk_widget().destroy()
+
     lista_categorias = ["Renda", "Despesas", "Saldo"]
     lista_valores = [300, 2000, 6236]
 
-    # criando a figura do gráfico
+    # Criando a figura do gráfico
     figura = plt.Figure(figsize=(4, 3.45), dpi=60)
     ax = figura.add_subplot(111)
-    ax.autoscale(enable=True, axis='both', tight=None)
-
-    # plotando as barras
     ax.bar(lista_categorias, lista_valores, color=colors, width=0.9)
 
-    # adicionando rótulos nas barras
-    c = 0
-    for i in ax.patches:
-        ax.text(i.get_x() + i.get_width() / 2, i.get_height() + 50,
-                str("{:,.0f}".format(lista_valores[c])), fontsize=12, fontstyle='italic', verticalalignment='bottom', color='dimgrey')
-        c += 1
-
+    # Configurando rótulos e estilo
     ax.set_xticklabels(lista_categorias, fontsize=16)
+    ax.yaxis.grid(False)
+    ax.xaxis.grid(False)
+
+    # Integra o gráfico na interface Tkinter
+    canvas_bar = FigureCanvasTkAgg(figura, frameMeio)
+    canvas_bar.get_tk_widget().place(x=10, y=70)
 
     # ajustando o estilo do gráfico
     ax.patch.set_facecolor('#ffffff')
@@ -245,44 +251,35 @@ frame_gra_pie = Frame(frameMeio, width=580, height=250, bg=co2)
 frame_gra_pie.place(x=415, y=5)
 
 # função gráfico pie
+global canvas_pie
+canvas_pie = None
+
 def grafico_pie():
+    global canvas_pie
+
+   
+    if canvas_pie:
+        canvas_pie.get_tk_widget().destroy()
+
     figura = plt.Figure(figsize=(5, 3), dpi=90)
     ax = figura.add_subplot(111)
 
     lista_valores = [345, 225, 534]
     lista_categorias = ['Renda', 'Despesa', 'Saldo']
-    
-    # Definir cores personalizadas para as fatias
     colors = ['#ff9999', '#66b3ff', '#99ff99']
-
-    # Explode as fatias um pouco, para destacar as partes do gráfico (ajustar se necessário)
     explode = [0.05] * len(lista_categorias)
 
-    # Criando o gráfico de pizza com o formato de círculo completo
     ax.pie(lista_valores, explode=explode, autopct='%1.1f%%', colors=colors, shadow=True, startangle=45)
-
-    # Título do gráfico
     ax.set_title("Resumo Financeiro", fontsize=14, fontweight="bold")
-
-    # Legenda ajustada para ir para a direita
     ax.legend(lista_categorias, loc="center left", fontsize=12, bbox_to_anchor=(0.9, 0.5))
 
-    # Removendo espaços em branco ao redor do gráfico
-    figura.tight_layout(pad=0)  # Remove o padding extra
-    
-    figura.subplots_adjust(left=0.1)  # Ajuste o valor 'left' para mover o gráfico para a direita
-    
-    # Removendo espaços em branco ao redor do gráfico
-
-    # Integra o gráfico na interface
-    canva = FigureCanvasTkAgg(figura, frame_gra_pie)
-    canva.get_tk_widget().pack(fill=BOTH, expand=True)
-    canva.draw()
-
-# chamar as funções
+    canvas_pie = FigureCanvasTkAgg(figura, frame_gra_pie)
+    canvas_pie.get_tk_widget().pack(fill=BOTH, expand=True)
 
 
-## criando frame abaixo do medio 
+
+
+
 frame_renda=Frame(frameBaixo, width=300, height= 250, bg=co1)
 frame_renda.grid(row=0,column=0)
 
@@ -293,7 +290,7 @@ frame_operacoes.grid(row=0,column=1,padx= 5)
 frame_configuracao=Frame(frameBaixo, width=220, height= 250, bg=co1)
 frame_configuracao.grid(row=0,column=2,padx= 5)
 
-### tabela renda mensal 
+
 app_tabela=Label(frameMeio, text="Tabelas Receitas e Despesas",anchor= NW, font=("Verdana 12"),bg=co1, fg=co4)
 app_tabela.place(x=5, y=309)
 
