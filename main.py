@@ -184,7 +184,7 @@ def grafico_bar():
         canvas_bar.get_tk_widget().destroy()
 
     lista_categorias = ["Renda", "Despesas", "Saldo"]
-    lista_valores = [300, 2000, 6236]
+    lista_valores = [1200, 600, 3200]
 
     # Criando a figura do gráfico
     figura = plt.Figure(figsize=(4, 3.45), dpi=60)
